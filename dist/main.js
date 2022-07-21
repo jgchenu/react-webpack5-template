@@ -1,1 +1,0 @@
-(() => { var n = [1, 2].map((function (n) { return "item: ".concat(n) })); console.log(n) })();

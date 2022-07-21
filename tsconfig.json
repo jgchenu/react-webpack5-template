@@ -8,7 +8,19 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "baseUrl": "./",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["./node_modules/@types", "./typings"],
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "customMatcher": "\\.(c|le||lle|sa|sc)ss$"
+        }
+      }
+    ],
+    "paths": {
+      "$src/*": ["src/*"]
+    }
   },
   "exclude": [
     "public",
@@ -22,6 +34,6 @@
     "src/setupTests.ts",
     "static/build",
     "resources",
-    "output"
+    "dist"
   ]
 }
