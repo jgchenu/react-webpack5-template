@@ -116,6 +116,19 @@ const config = {
         resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url
         use: ['@svgr/webpack'],
       },
+      {
+        test: /\.(png|jpe?g|gif)$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 1024, // 1kb
+          },
+        },
+      },
+      {
+        test: /\.(ttf|eot|woff(2))(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        type: 'asset/resource',
+      },
     ],
   },
   plugins: [
