@@ -1,9 +1,12 @@
 const path = require('path');
 
 module.exports = {
-  process(src, filePath) {
-    if (path.extname(filePath) !== '.svg') {
-      return src;
+  process(sourceText, filePath) {
+    const isSvg = path.extname(filePath) === '.svg';
+    if (!isSvg) {
+      return {
+        code: sourceText,
+      };
     }
 
     const name = `svg-${path.basename(filePath, '.svg')}`
@@ -11,15 +14,17 @@ module.exports = {
       .map((x) => `${x.charAt(0).toUpperCase()}${x.slice(1)}`)
       .join('');
 
-    return `
-const React = require('react');
-function ${name}(props) {
-  return React.createElement(
-    'svg',
-    Object.assign({}, props, {'data-file-name': ${name}.name})
-  );
-}
-module.exports = ${name};
-            `;
+    return {
+      code: `
+      const React = require('react');
+      function ${name}(props) {
+        return React.createElement(
+          'svg',
+          Object.assign({}, props, {'data-file-name': ${name}.name})
+        );
+      }
+      module.exports = ${name};
+                  `,
+    };
   },
 };

@@ -2,6 +2,7 @@ const path = require('path');
 const alias = require('./alias');
 
 const parsedAlias = {};
+//
 Object.entries(alias).forEach(([key, val]) => {
   // key 前面有 '$' 符号, 需要转义
   const parsedKey = `${key[0] === '$' ? '\\' : ''}${key}\\/(.*)$`;
@@ -13,20 +14,19 @@ Object.entries(alias).forEach(([key, val]) => {
 module.exports = {
   cacheDirectory: './node_modules/.cache/jest',
   preset: 'ts-jest',
+  testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testMatch: ['**/?(*.)+(spec|test).[jt]s?(x)'],
   globals: {
     __DEV__: true,
-    scm: {},
   },
   testPathIgnorePatterns: ['/node_modules/', '/dist/', '/scripts/'],
   collectCoverageFrom: ['src/**/*.tsx?', '!**/node_modules/**', '!**/script/**', '!**/spec/**', '!**/lib/**'],
   transform: {
     '^.+\\.tsx?$': '<rootDir>/jest.transformer.js',
-    '^.+\\.(css|less)$': '<rootDir>/jest.style-mock.js',
     '^.+\\.svg$': '<rootDir>/jest-svg-transformer.js',
     '^.+\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/jest.file-mock.js',
   },
-  moduleNameMapper: { ...parsedAlias, 'lodash-es': 'lodash' },
+  moduleNameMapper: { ...parsedAlias, 'lodash-es': 'lodash', '^.+\\.(css|less)$': 'identity-obj-proxy' },
 };

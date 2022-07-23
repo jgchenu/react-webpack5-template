@@ -23,3 +23,5 @@ node_modules/*
 npm-debug.log
 ../chimera/*
 webpack.config.js
+jest*.js
+alias.js

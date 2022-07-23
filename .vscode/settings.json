@@ -22,7 +22,7 @@
   },
   "typescript.tsdk": "./node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "cSpell.words": ["imgs", "stylelint", "svgs"],
+  "cSpell.words": ["imgs", "stylelint", "svgs", "testid"],
   "eslint.lintTask.enable": true,
   "eslint.alwaysShowStatus": true
 }

@@ -1,102 +1,173 @@
-{
-  "name": "react-webpack5-template",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:jgchenu/react-webpack5-template.git",
-  "author": "jgchenu <jgchenu@foxmail.com>",
-  "license": "MIT",
-  "scripts": {
-    "build": "cross-env NODE_ENV=production webpack",
-    "dev": "cross-env NODE_ENV=development webpack serve",
-    "eslint": "eslint --ext .js,.jsx,.ts,.tsx src --fix --max-warnings=0",
-    "stylelint": "stylelint **/*.css, **/*.less",
-    "lint": "yarn eslint  && yarn stylelint",
-    "prepare": "husky install",
-    "test": "jest"
+const path = require('path');
+const ESLintPlugin = require('eslint-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
+const alias = require('./alias');
+
+const __DEV__ = process.env.NODE_ENV === 'development';
+const ROOT_PATH = path.resolve(__dirname, '.');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const mode = __DEV__ ? 'development' : 'production';
+
+const styleLoaderOrMiniCssLoader = __DEV__ ? 'style-loader' : MiniCssExtractPlugin.loader;
+const config = {
+  mode,
+  devtool: __DEV__ ? 'cheap-module-source-map' : 'source-map',
+  entry: path.resolve(ROOT_PATH, './src/index.tsx'),
+  output: {
+    filename: __DEV__ ? '[name].js' : '[name]-[contenthash].js',
+    chunkFilename: __DEV__ ? '[name].js' : '[name]-[contenthash].js',
+    path: path.resolve(__dirname, 'dist'),
   },
-  "lint-staged": {
-    "*.{js,ts,jsx,tsx}": [
-      "eslint"
+  devServer: {
+    compress: true,
+    open: false,
+    port: 8080,
+    host: '0.0.0.0',
+    hot: true,
+    static: {
+      directory: path.resolve(ROOT_PATH, 'static'),
+    },
+  },
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(t|j)sx?$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+            },
+          },
+        ],
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(css|less)$/,
+        use: [
+          {
+            loader: styleLoaderOrMiniCssLoader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: __DEV__,
+              importLoaders: 2,
+              modules: {
+                localIdentName: '[name]__[local]___[hash:base64:8]',
+              },
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [require('autoprefixer')],
+              },
+            },
+          },
+          {
+            loader: 'less-loader',
+          },
+        ],
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(css|less)$/,
+        use: [
+          {
+            loader: styleLoaderOrMiniCssLoader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [require('autoprefixer')],
+              },
+            },
+          },
+          {
+            loader: 'less-loader',
+          },
+        ],
+        include: /node_modules/,
+      },
+      {
+        test: /\.svg$/i,
+        issuer: /\.[jt]sx?$/,
+        use: ['@svgr/webpack'],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 1024, // 1kb
+          },
+        },
+      },
+      {
+        test: /\.(ttf|eot|woff(2))(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        type: 'asset/resource',
+      },
     ],
-    "*.{css,less}": "stylelint"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "./pre_commit.sh && lint-staged"
-    }
+  plugins: [
+    new StyleLintPlugin({
+      context: path.resolve(ROOT_PATH, 'src'),
+      files: ['**/*.css', '**/*.less'],
+    }),
+    new ProgressBarPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.resolve(ROOT_PATH, './static/template.html'),
+      minify: {
+        collapseWhitespace: !__DEV__,
+      },
+    }),
+    new CleanWebpackPlugin(),
+    new ESLintPlugin({
+      failOnError: !__DEV__,
+      extensions: ['js', 'ts', 'jsx', 'tsx'],
+    }),
+    new MiniCssExtractPlugin({
+      filename: __DEV__ ? '[name].css' : '[name]-[contenthash].css',
+      chunkFilename: __DEV__ ? '[name].css' : '[name]-[contenthash].css',
+    }),
+  ],
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    alias: {
+      ...alias,
+    },
   },
-  "devDependencies": {
-    "@babel/core": "^7.18.9",
-    "@babel/plugin-transform-runtime": "^7.18.9",
-    "@babel/preset-env": "^7.18.9",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/preset-typescript": "^7.18.6",
-    "@babel/runtime-corejs3": "^7.18.9",
-    "@commitlint/cli": "^17.0.3",
-    "@commitlint/config-conventional": "^17.0.3",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
-    "@svgr/webpack": "^6.3.0",
-    "@testing-library/react": "^13.3.0",
-    "@types/jest": "^28.1.6",
-    "@types/react": "17.0.2",
-    "@types/react-dom": "17.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.30.7",
-    "@typescript-eslint/parser": "^5.30.7",
-    "autoprefixer": "^10.4.7",
-    "babel-loader": "^8.2.5",
-    "clean-webpack-plugin": "^4.0.0",
-    "cross-env": "^7.0.3",
-    "css-loader": "^6.7.1",
-    "css-minimizer-webpack-plugin": "^4.0.0",
-    "eslint": "^8.20.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.30.1",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-webpack-plugin": "^3.2.0",
-    "html-webpack-plugin": "^5.5.0",
-    "husky": "^8.0.1",
-    "jest": "^28.1.3",
-    "less": "^4.1.3",
-    "less-loader": "^11.0.0",
-    "lint-staged": "^13.0.3",
-    "mini-css-extract-plugin": "^2.6.1",
-    "postcss": "^8.4.14",
-    "postcss-less": "^6.0.0",
-    "postcss-loader": "^7.0.1",
-    "prettier": "^2.7.1",
-    "progress-bar-webpack-plugin": "^2.1.0",
-    "react-refresh": "^0.14.0",
-    "style-loader": "^3.3.1",
-    "stylelint": "^14.9.1",
-    "stylelint-config-css-modules": "^4.1.0",
-    "stylelint-config-idiomatic-order": "^8.1.0",
-    "stylelint-config-prettier": "^9.0.3",
-    "stylelint-config-recommended": "^8.0.0",
-    "stylelint-config-standard": "^26.0.0",
-    "stylelint-webpack-plugin": "^3.3.0",
-    "ts-jest": "^28.0.7",
-    "ts-loader": "^9.3.1",
-    "tsconfig-paths-webpack-plugin": "^3.5.2",
-    "typescript": "^4.7.4",
-    "typescript-plugin-css-modules": "^3.4.0",
-    "webpack": "^5.73.0",
-    "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.9.3"
+  optimization: {
+    minimizer: [new CssMinimizerPlugin()],
   },
-  "dependencies": {
-    "@reduxjs/toolkit": "^1.8.3",
-    "classnames": "^2.3.1",
-    "normalize.css": "^8.0.1",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-redux": "^8.0.2",
-    "react-router-dom": "^6.3.0",
-    "redux": "^4.2.0"
-  }
+};
+
+// hmr react
+if (__DEV__) {
+  config.plugins.push(new ReactRefreshWebpackPlugin());
 }
+
+module.exports = config;
+
+console.log('current env', process.env.NODE_ENV);
