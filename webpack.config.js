@@ -165,7 +165,7 @@ const config = {
 
 // hmr react
 if (__DEV__) {
-  config.plugins.push(new ReactRefreshWebpackPlugin());
+  config.plugins.push(new ReactRefreshWebpackPlugin({ overlay: false }));
 }
 
 module.exports = config;
