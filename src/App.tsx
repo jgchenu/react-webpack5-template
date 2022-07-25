@@ -1,8 +1,17 @@
 import React from 'react';
-import Demo from '$src/containers/Demo';
+import { Provider } from 'react-redux';
+import { store } from '$src/redux/store';
+import Routes from '$src/routes';
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
-  return <Demo />;
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+    </Provider>
+  );
 }
 
 export default App;

@@ -1,0 +1,41 @@
+@heightHeight: 60px;
+@asideWidth: 100px;
+
+.container {
+  height: 100%;
+
+  .header {
+    height: @heightHeight;
+    background-color: lightblue;
+  }
+
+  .content {
+    display: flex;
+    height: calc(100% - @heightHeight);
+
+    .aside {
+      display: flex;
+      width: @asideWidth;
+      height: 100%;
+      flex-direction: column;
+      align-items: center;
+      background-color: orange;
+
+      a {
+        color: #000;
+        text-decoration: none;
+
+        &.active {
+          color: red;
+        }
+      }
+    }
+
+    .sub-content {
+      display: flex;
+      height: 100%;
+      flex: 1;
+      background-color: lightgreen;
+    }
+  }
+}

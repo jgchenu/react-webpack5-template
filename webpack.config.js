@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
+const webpack = require('webpack');
 const alias = require('./alias');
 
 const __DEV__ = process.env.NODE_ENV === 'development';
@@ -24,6 +25,7 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
+    historyApiFallback: true,
     compress: true,
     open: false,
     port: 8080,
@@ -130,6 +132,9 @@ const config = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      __DEV__: JSON.stringify(__DEV__),
+    }),
     new StyleLintPlugin({
       context: path.resolve(ROOT_PATH, 'src'),
       files: ['**/*.css', '**/*.less'],

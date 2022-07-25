@@ -2,9 +2,9 @@
   "extends": [
     "stylelint-config-standard",
     "stylelint-config-idiomatic-order",
-    "stylelint-config-css-modules",
     "stylelint-config-prettier",
-    "stylelint-config-recommended"
+    "stylelint-config-recommended",
+    "stylelint-config-css-modules"
   ],
   "customSyntax": "postcss-less"
 }
