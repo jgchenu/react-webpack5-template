@@ -6,7 +6,8 @@ function Demo() {
 
   return (
     <div>
-      <div className={styles['app-container']}>
+      <h1>demo</h1>
+      <div className={styles['blue-background']}>
         <p className={styles.red}>red1</p>
         <p className={styles.green}>green2</p>
         <Like className={styles.small} />

@@ -3,6 +3,8 @@ import Dashboard from '$src/containers/Dashboard';
 import DashboardMessages from '$src/containers/DashboardMessages';
 import DashboardTasks from '$src/containers/DashboardTasks';
 import { useRoutes } from 'react-router-dom';
+import Demo from '$src/containers/Demo';
+import ReduxDemo from '$src/containers/ReduxDemo';
 
 const routes = [
   {
@@ -10,6 +12,11 @@ const routes = [
     element: <Dashboard />,
     children: [
       { index: true, element: 'not matched' },
+      {
+        path: 'demo',
+        element: <Demo />,
+      },
+      { path: 'redux-demo', element: <ReduxDemo /> },
       {
         path: 'messages',
         element: <DashboardMessages />,
