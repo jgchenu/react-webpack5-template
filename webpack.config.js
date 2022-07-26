@@ -6,9 +6,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
+const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
+
 const webpack = require('webpack');
 const alias = require('./alias');
-
 const __DEV__ = process.env.NODE_ENV === 'development';
 const ROOT_PATH = path.resolve(__dirname, '.');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -107,9 +108,44 @@ const config = {
           },
           {
             loader: 'less-loader',
+            options: {
+              lessOptions: {
+                modifyVars: {
+                  'primary-color': '#1DA57A',
+                  'link-color': '#1DA57A',
+                  'border-radius-base': '2px',
+                },
+                javascriptEnabled: true,
+              },
+            },
           },
         ],
         include: /node_modules/,
+      },
+      {
+        test: /\.s[ac]ss$/,
+        use: [
+          {
+            loader: styleLoaderOrMiniCssLoader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [require('autoprefixer')],
+              },
+            },
+          },
+          {
+            loader: 'sass-loader',
+          },
+        ],
       },
       {
         test: /\.svg$/i,
@@ -156,6 +192,7 @@ const config = {
       filename: __DEV__ ? '[name].css' : '[name]-[contenthash].css',
       chunkFilename: __DEV__ ? '[name].css' : '[name]-[contenthash].css',
     }),
+    new AntdDayjsWebpackPlugin(),
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
