@@ -83,6 +83,15 @@ const config = {
           {
             loader: 'less-loader',
           },
+          {
+            loader: 'style-resources-loader',
+            options: {
+              patterns: [
+                path.resolve(ROOT_PATH, 'src/styles/mixins.less'),
+                path.resolve(ROOT_PATH, 'src/styles/variables.less'),
+              ],
+            },
+          },
         ],
         exclude: /node_modules/,
       },
@@ -111,9 +120,8 @@ const config = {
             options: {
               lessOptions: {
                 modifyVars: {
-                  'primary-color': '#1DA57A',
-                  'link-color': '#1DA57A',
-                  'border-radius-base': '2px',
+                  'primary-color': '#EE4D2D',
+                  'border-radius-base': '4px',
                 },
                 javascriptEnabled: true,
               },
@@ -121,31 +129,6 @@ const config = {
           },
         ],
         include: /node_modules/,
-      },
-      {
-        test: /\.s[ac]ss$/,
-        use: [
-          {
-            loader: styleLoaderOrMiniCssLoader,
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 2,
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [require('autoprefixer')],
-              },
-            },
-          },
-          {
-            loader: 'sass-loader',
-          },
-        ],
       },
       {
         test: /\.svg$/i,
