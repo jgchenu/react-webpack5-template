@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, Suspense } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import styles from './style.less';
 
@@ -29,8 +29,11 @@ function Dashboard() {
           ))}
         </aside>
         <main className={styles['sub-content']}>
-          <Outlet />
+          <Suspense fallback={null}>
+            <Outlet />
+          </Suspense>
         </main>
+        <div className={styles.name}></div>
       </section>
     </section>
   );

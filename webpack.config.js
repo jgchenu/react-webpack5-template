@@ -23,9 +23,12 @@ const config = {
     filename: __DEV__ ? '[name].js' : '[name]-[contenthash].js',
     chunkFilename: __DEV__ ? '[name].js' : '[name]-[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
   },
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: '/index.html',
+    },
     compress: true,
     open: false,
     port: 8080,
@@ -82,6 +85,13 @@ const config = {
           {
             loader: 'less-loader',
           },
+          {
+            loader: 'style-resources-loader',
+            options: {
+              patterns: [path.resolve(ROOT_PATH, 'src/styles/variables.less')],
+              injector: 'append',
+            },
+          },
         ],
         exclude: /node_modules/,
       },
@@ -107,6 +117,17 @@ const config = {
           },
           {
             loader: 'less-loader',
+            options: {
+              lessOptions: {
+                // 如果使用less-loader@5，请移除 lessOptions 这一级直接配置选项。
+                modifyVars: {
+                  'primary-color': '#1DA57A',
+                  'link-color': '#1DA57A',
+                  'border-radius-base': '2px',
+                },
+                javascriptEnabled: true,
+              },
+            },
           },
         ],
         include: /node_modules/,

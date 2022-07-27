@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './style.less';
 import Like from '$src/assets/svgs/like.svg';
+import { Button } from 'antd';
 function Demo() {
   const [count, setCount] = useState(0);
 
@@ -13,8 +14,8 @@ function Demo() {
         <Like className={styles.small} />
       </div>
       <span data-testid="count">{count}</span>
-      <button onClick={() => setCount((prev) => prev + 1)}>increase</button>
-      <button onClick={() => setCount((prev) => prev - 1)}>decrease</button>
+      <Button onClick={() => setCount((prev) => prev + 1)}>increase</Button>
+      <Button onClick={() => setCount((prev) => prev - 1)}>decrease</Button>
     </div>
   );
 }

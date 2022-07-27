@@ -10,14 +10,7 @@
     "baseUrl": "./",
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["./node_modules/@types", "./typings"],
-    "plugins": [
-      {
-        "name": "typescript-plugin-css-modules",
-        "options": {
-          "customMatcher": "\\.(c|le||lle|sa|sc)ss$"
-        }
-      }
-    ],
+    "plugins": [],
     "paths": {
       "$src/*": ["src/*"]
     }
