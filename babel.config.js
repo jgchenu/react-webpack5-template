@@ -9,13 +9,7 @@ const config = {
         corejs: 3,
       },
     ],
-    [
-      'import',
-      {
-        libraryName: 'antd',
-        style: true,
-      },
-    ],
+    ['import', { libraryName: 'antd', style: true }],
   ],
 };
 

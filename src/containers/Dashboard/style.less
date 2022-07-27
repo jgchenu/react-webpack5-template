@@ -1,17 +1,14 @@
-@heightHeight: 60px;
-@asideWidth: 100px;
-
 .container {
   height: 100%;
 
   .header {
-    height: @heightHeight;
+    height: @headerHeight;
     background-color: lightblue;
   }
 
   .content {
     display: flex;
-    height: calc(100% - @heightHeight);
+    height: calc(100% - @headerHeight);
 
     .aside {
       display: flex;
@@ -19,7 +16,7 @@
       height: 100%;
       flex-direction: column;
       align-items: center;
-      background-color: orange;
+      background-color: #ccc;
 
       a {
         color: #000;
@@ -35,7 +32,7 @@
       display: flex;
       height: 100%;
       flex: 1;
-      background-color: lightgreen;
+      background-color: #fefefe;
     }
   }
 }
