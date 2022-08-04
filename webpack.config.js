@@ -38,6 +38,7 @@ const config = {
     static: {
       directory: path.resolve(ROOT_PATH, 'static'),
     },
+    allowedHosts: 'all',
   },
   cache: {
     type: 'filesystem',
