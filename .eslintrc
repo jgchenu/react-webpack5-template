@@ -24,6 +24,7 @@
     "import/ignore": ["node_modules"]
   },
   "globals": {
-    "__DEV__": false
+    "__DEV__": false,
+    "__MOCK__": false
   }
 }

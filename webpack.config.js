@@ -11,6 +11,8 @@ const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 const webpack = require('webpack');
 const alias = require('./alias');
 const __DEV__ = process.env.NODE_ENV === 'development';
+const __MOCK__ = process.env.MOCK;
+
 const ROOT_PATH = path.resolve(__dirname, '.');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const mode = __DEV__ ? 'development' : 'production';
@@ -157,6 +159,7 @@ const config = {
   plugins: [
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(__DEV__),
+      __MOCK__: JSON.stringify(__MOCK__),
     }),
     new StyleLintPlugin({
       context: path.resolve(ROOT_PATH, 'src'),
@@ -199,4 +202,4 @@ if (__DEV__) {
 
 module.exports = config;
 
-console.log('current env', process.env.NODE_ENV);
+console.log('current env', __DEV__, __MOCK__);

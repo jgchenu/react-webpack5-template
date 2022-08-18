@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './style.less';
 import Like from '$src/assets/svgs/like.svg';
 import { Button } from 'antd';
+import { getApiDocList } from '$src/apis/doc';
+
 function Demo() {
   const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    getApiDocList().then(console.log);
+  }, []);
 
   return (
     <div>

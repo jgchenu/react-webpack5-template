@@ -14,7 +14,9 @@
     "prepare": "husky install",
     "test": "rm -rf node_modules/.cache/jest && jest --verbose false",
     "commit": "git-cz",
-    "type:check": "tsc --noEmit"
+    "type:check": "tsc --noEmit",
+    "dev:mock": "cross-env NODE_ENV=development MOCK=true webpack serve",
+    "api": "yarn ytt"
   },
   "config": {
     "commitizen": {
@@ -107,13 +109,15 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
     "antd": "^4.22.1",
+    "axios": "^0.27.2",
     "classnames": "^2.3.1",
     "normalize.css": "^8.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
-    "redux": "^4.2.0"
+    "redux": "^4.2.0",
+    "yapi-to-typescript": "^3.34.1"
   },
   "resolutions": {
     "@types/react": "17.0.48"
