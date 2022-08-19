@@ -11,7 +11,7 @@
     "eslint": "eslint --ext .js,.jsx,.ts,.tsx src --fix --max-warnings=0",
     "stylelint": "stylelint **/*.css, **/*.less",
     "lint": "yarn eslint  && yarn stylelint",
-    "prepare": "husky install",
+    "prepare": "node ./scripts/postinstall",
     "test": "rm -rf node_modules/.cache/jest && jest --verbose false",
     "commit": "git-cz",
     "type:check": "tsc --noEmit",
