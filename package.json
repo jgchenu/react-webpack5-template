@@ -12,7 +12,7 @@
     "stylelint": "stylelint **/*.css, **/*.less",
     "lint": "yarn eslint  && yarn stylelint",
     "prepare": "node ./scripts/postinstall",
-    "test": "rm -rf node_modules/.cache/jest && jest --verbose false",
+    "test": "jest",
     "commit": "git-cz",
     "type:check": "tsc --noEmit",
     "dev:mock": "cross-env NODE_ENV=development MOCK=true webpack serve",
