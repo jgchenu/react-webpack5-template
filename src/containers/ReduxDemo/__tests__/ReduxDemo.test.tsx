@@ -1,6 +1,8 @@
 import React from 'react';
-import Demo from '../ReduxDemo';
+
 import { render, fireEvent, screen } from '$src/test-utils';
+
+import Demo from '../ReduxDemo';
 
 describe('test redux demo', () => {
   test('test redux demo decrease and decrease', () => {

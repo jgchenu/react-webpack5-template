@@ -1,11 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import styles from './style.less';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Modal } from 'antd';
+
 import Like from '$src/assets/svgs/like.svg';
-import { Button } from 'antd';
 import { getApiDocList } from '$src/apis/doc';
+import { wait } from '$src/helpers';
+
+import styles from './style.less';
 
 function Demo() {
   const [count, setCount] = useState(0);
+
+  const handleOpenModal = useCallback(() => {
+    Modal.confirm({
+      title: 'title',
+      content: 'content',
+      onOk: async () => {
+        await wait(3000);
+      },
+    });
+  }, []);
 
   useEffect(() => {
     getApiDocList().then(console.log);
@@ -22,6 +35,7 @@ function Demo() {
       <span data-testid="count">{count}</span>
       <Button onClick={() => setCount((prev) => prev + 1)}>increase</Button>
       <Button onClick={() => setCount((prev) => prev - 1)}>decrease</Button>
+      <Button onClick={handleOpenModal}>open modal</Button>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, Suspense } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+
 import styles from './style.less';
 
 function Dashboard() {

@@ -1,8 +1,9 @@
 import React from 'react';
+import { useRoutes } from 'react-router-dom';
+
 import Dashboard from '$src/containers/Dashboard';
 import DashboardMessages from '$src/containers/DashboardMessages';
 import DashboardTasks from '$src/containers/DashboardTasks';
-import { useRoutes } from 'react-router-dom';
 import Demo from '$src/containers/Demo';
 import ReduxDemo from '$src/containers/ReduxDemo';
 

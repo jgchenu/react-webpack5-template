@@ -1,7 +1,9 @@
 import React from 'react';
+
 import Like from '$src/assets/svgs/like.svg';
 import { useAppDispatch, useAppSelector } from '$src/hooks';
 import { decrease, increase } from '$src/redux/reducers';
+
 import styles from './style.less';
 
 function ReduxDemo() {
