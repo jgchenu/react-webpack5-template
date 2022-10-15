@@ -7,9 +7,11 @@
 - webpack5
 - redux
 - @reduxjs/toolkit
+- [yapi-to-typescript](https://github.com/fjc0k/yapi-to-typescript)
 
 # 基于 yapi 实现 API 管理
 
+- [yapi](https://github.com/YMFE/yapi)
 - [yapi API 地址](http://yapi.smart-xwork.cn/project/169452/interface/api)
 - 基于 yapi-to-typescript 实现 request 方法，无需管理 API 调用
 
