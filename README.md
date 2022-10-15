@@ -1,8 +1,17 @@
 # 基于 webpack5 的 react 项目架构
 
+> 开箱即用，灵活定制
+
 - react17
 - react-router6
 - webpack5
+- redux
+- @reduxjs/toolkit
+
+# 基于 yapi 实现 API 管理
+
+- [yapi API 地址](http://yapi.smart-xwork.cn/project/169452/interface/api)
+- 基于 yapi-to-typescript 实现 request 方法，无需管理 API 调用
 
 # node 版本
 
@@ -29,6 +38,10 @@ yarn
 yarn dev # 默认开启hmr与webpack5 编译缓存
 ```
 
+```bash
+yarn dev:mock # 基于yapi mock开发接口
+```
+
 ## 打包
 
 ```bash
@@ -41,13 +54,9 @@ yarn build
 yarn test
 ```
 
-## lint 检查
+# CI
 
-```bash
-yarn lint
-```
-
-## 本地 CI
+## 本地 CI， lint-staged
 
 每次提交代码，暂存区的代码都会 lint，没有通过 lint 代码无法提交，请按照规范编写你的代码
 
@@ -55,7 +64,11 @@ yarn lint
 
 每次提交 MR，都会跑全量的 lint 检查与 test 集成测试，如果没有通过，也无法合入，所以在本地 CI 的时候请不要选择跳过
 
-# lint
+## ts type check
+
+```bash
+yarn type:check # 检查你的样式是否符合规范
+```
 
 ## stylelint
 
@@ -68,6 +81,13 @@ yarn stylelint # 检查你的样式是否符合规范
 ```bash
 yarn eslint # 检查你的ts跟tsx代码是否符合规范
 ```
+
+# 规范
+
+- [GIE MESSAGE 规范](https://www.conventionalcommits.org/en/v1.0.0/)
+- [eslint 规范]
+- [prettier 代码风格规范]
+- [stylelint 代码风格规范]
 
 # 基于项目提供快捷的代码片段
 
