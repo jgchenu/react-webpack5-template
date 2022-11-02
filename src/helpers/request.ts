@@ -41,8 +41,8 @@ async function makeRequest<TResponseData>(payload: RequestFunctionParams): Promi
     params,
   };
 
-  let fetchRes: AxiosResponse<TResponseData>;
-  let fetchErr: AxiosError<TResponseData>;
+  let fetchRes: AxiosResponse<TResponseData> | undefined = undefined;
+  let fetchErr: AxiosError<TResponseData> | undefined = undefined;
   // 发起请求
   try {
     fetchRes = await axios(url, axiosOptions);
@@ -55,6 +55,10 @@ async function makeRequest<TResponseData>(payload: RequestFunctionParams): Promi
     throw fetchErr;
   }
 
+  if (!fetchRes) {
+    throw new Error('no response');
+  }
+
   // 请求结果处理
   return fetchRes.data;
 }
@@ -64,16 +68,15 @@ export default async function request<TResponseData>(payload: RequestFunctionPar
     return makeRequest(payload);
   } catch (e) {
     const err = e as AxiosError<TResponseData>;
-    const { code } = err;
+    const { code = '' } = err;
     // 网络错误处理,可能是超时与波动引起的，尝试重试
     if (ERR_NETWORK_CODE.includes(code)) {
       return makeRequest<TResponseData>(payload);
     } // 状态错误处理
-    if (err.response.status === 401) {
+    if (err?.response?.status === 401) {
       // 用户未登录处理
       // 推荐在此处发起登录逻辑
-    } else {
-      throw err;
     }
+    throw err;
   }
 }
