@@ -1,7 +1,6 @@
 const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
@@ -23,10 +22,10 @@ const config = {
   devtool: __DEV__ ? 'cheap-module-source-map' : 'source-map',
   entry: path.resolve(ROOT_PATH, './src/index.tsx'),
   output: {
-    filename: __DEV__ ? '[name].js' : '[name]-[contenthash].js',
-    chunkFilename: __DEV__ ? '[name].js' : '[name]-[contenthash].js',
+    filename: __DEV__ ? '[name].js' : '[name]-[chunkhash:8].js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
+    clean: true,
   },
   devServer: {
     historyApiFallback: {
@@ -173,14 +172,12 @@ const config = {
         collapseWhitespace: !__DEV__,
       },
     }),
-    new CleanWebpackPlugin(),
     new ESLintPlugin({
       failOnError: !__DEV__,
       extensions: ['js', 'ts', 'jsx', 'tsx'],
     }),
     new MiniCssExtractPlugin({
-      filename: __DEV__ ? '[name].css' : '[name]-[contenthash].css',
-      chunkFilename: __DEV__ ? '[name].css' : '[name]-[contenthash].css',
+      filename: __DEV__ ? '[name].css' : '[name]-[contenthash:8].css',
     }),
     new AntdDayjsWebpackPlugin(),
   ],
@@ -192,6 +189,52 @@ const config = {
   },
   optimization: {
     minimizer: [new CssMinimizerPlugin()],
+    splitChunks: {
+      // 分包代码
+      cacheGroups: {
+        react: {
+          test: /node_modules\/.*(react).*/, // 只匹配node_modules里面的模块
+          name: 'react-vendors', // 提取文件命名为vendors,js后缀和chunkhash会自动加
+          minChunks: 1, // 只要使用一次就提取出来
+          chunks: 'initial', // 只提取初始化就能获取到的模块，不管异步的
+          minSize: 0, // 提取代码体积大于0就提取出来
+          priority: 1, // 提取优先级为1
+        },
+        redux: {
+          test: /node_modules\/.*(redux).*/, // 只匹配node_modules里面的模块
+          name: 'redux-vendors', // 提取文件命名为vendors,js后缀和chunkhash会自动加
+          minChunks: 1, // 只要使用一次就提取出来
+          chunks: 'initial', // 只提取初始化就能获取到的模块，不管异步的
+          minSize: 0, // 提取代码体积大于0就提取出来
+          priority: 1, // 提取优先级为1
+        },
+        utils: {
+          test: /node_modules\/.*(axios|yapi|classnames).*/, // 只匹配node_modules里面的模块
+          name: 'utils-vendors', // 提取文件命名为vendors,js后缀和chunkhash会自动加
+          minChunks: 1, // 只要使用一次就提取出来
+          chunks: 'initial', // 只提取初始化就能获取到的模块，不管异步的
+          minSize: 0, // 提取代码体积大于0就提取出来
+          priority: 1, // 提取优先级为1
+        },
+        antd: {
+          test: /node_modules\/.*(antd|rc-).*/, // 只匹配node_modules里面的模块
+          name: 'antd-vendors', // 提取文件命名为vendors,js后缀和chunkhash会自动加
+          minChunks: 1, // 只要使用一次就提取出来
+          chunks: 'initial', // 只提取初始化就能获取到的模块，不管异步的
+          minSize: 0, // 提取代码体积大于0就提取出来
+          priority: 1, // 提取优先级为1
+        },
+        vendors: {
+          // 提取node_modules代码
+          test: /node_modules/, // 只匹配node_modules里面的模块
+          name: 'vendors', // 提取文件命名为vendors,js后缀和chunkhash会自动加
+          minChunks: 1, // 只要使用一次就提取出来
+          chunks: 'initial', // 只提取初始化就能获取到的模块，不管异步的
+          minSize: 0, // 提取代码体积大于0就提取出来
+          priority: 0, // 提取优先级为1
+        },
+      },
+    },
   },
 };
 
