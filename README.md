@@ -69,7 +69,7 @@ yarn test
 ## ts type check
 
 ```bash
-yarn type:check # 检查你的样式是否符合规范
+yarn type:check # 检查你的TS类型，我们约束了强undefined类型检查，这会有效减少白屏问题
 ```
 
 ## stylelint
@@ -81,15 +81,27 @@ yarn stylelint # 检查你的样式是否符合规范
 ## eslint
 
 ```bash
-yarn eslint # 检查你的ts跟tsx代码是否符合规范
+yarn eslint # 检查你的ts跟tsx代码是否符合eslint规范
 ```
 
 # 规范
 
 - [GIE MESSAGE 规范](https://www.conventionalcommits.org/en/v1.0.0/)
-- [eslint 规范]
-- [prettier 代码风格规范]
-- [stylelint 代码风格规范]
+- eslint 规范
+  - "eslint:recommended",
+  - "plugin:react/recommended",
+  - "plugin:@typescript-eslint/recommended",
+  - "plugin:prettier/recommended",
+  - "plugin:import/recommended",
+  - "plugin:import/typescript"
+  - react hooks 依赖检查，合法性检查
+  - 单文件限制行数 <= 400
+- stylelint 样式规范
+  - "stylelint-config-standard",
+  - "stylelint-config-idiomatic-order",
+  - "stylelint-config-prettier",
+  - "stylelint-config-recommended",
+  - "stylelint-config-css-modules"
 
 # 基于项目提供快捷的代码片段
 
