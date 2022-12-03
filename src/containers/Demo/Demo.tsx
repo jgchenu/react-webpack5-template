@@ -9,7 +9,6 @@ import styles from './style.less';
 
 function Demo() {
   const [count, setCount] = useState(0);
-
   const handleOpenModal = useCallback(() => {
     Modal.confirm({
       title: 'title',

@@ -189,6 +189,7 @@ const config = {
   },
   optimization: {
     minimizer: [new CssMinimizerPlugin()],
+    runtimeChunk: { name: 'runtime' },
     splitChunks: {
       // 分包代码
       cacheGroups: {
@@ -217,7 +218,7 @@ const config = {
           priority: 1, // 提取优先级为1
         },
         antd: {
-          test: /node_modules\/.*(antd|rc-).*/, // 只匹配node_modules里面的模块
+          test: /node_modules\/.*(antd).*/, // 只匹配node_modules里面的模块
           name: 'antd-vendors', // 提取文件命名为vendors,js后缀和chunkhash会自动加
           minChunks: 1, // 只要使用一次就提取出来
           chunks: 'initial', // 只提取初始化就能获取到的模块，不管异步的
