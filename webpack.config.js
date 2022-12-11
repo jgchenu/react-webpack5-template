@@ -168,6 +168,7 @@ const config = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(ROOT_PATH, './static/template.html'),
+      favicon: path.resolve(ROOT_PATH, './static/favicon.ico'),
       minify: {
         collapseWhitespace: !__DEV__,
       },
